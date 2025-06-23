@@ -5,4 +5,4 @@ scrape_configs:
   - job_name: 'spring-boot-opentelemetry'
     metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ['host.docker.internal:8080']  # ou use spring-app:8080 se estiver em container
+      - targets: ['host.docker.internal:8080']
