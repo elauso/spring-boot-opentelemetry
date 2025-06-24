@@ -27,7 +27,8 @@ fun CreateProductRequest.toDTO() = CreateProductDTO(
     name = name,
     description = description,
     price = price,
-    category = category
+    category = category,
+    userId = userId
 )
 
 fun ProductDTO.toResponse() = ProductResponse(

@@ -1,1 +1,1 @@
-curl -i -X POST -H "Content-Type: application/json" http://localhost:8080/products -d '{"name":"test","description":"test","price":10.00,"category":"ELECTRONICS"}'
+curl -i -X POST -H "Content-Type: application/json" http://localhost:8080/products -d '{"name":"test","description":"test","price":10.00,"category":"ELECTRONICS","userId":"f442ad40-eec3-4cfb-b328-14ed561d16fa"}'
