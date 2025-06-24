@@ -18,7 +18,7 @@ class ProductService(private val repository: ProductRepository) {
     fun create(createProductDTO: CreateProductDTO): ProductDTO =
         createProductDTO
             .apply {
-                Span.current().setAttribute("user.id", createProductDTO.userId.toString())
+                Span.current().setAttribute("user.id", this.userId.toString())
             }.let { createProduct ->
                 repository.save(createProduct.toModel())
             }.toDTO()
