@@ -34,6 +34,6 @@ class ProductService(private val repository: ProductRepository) {
             }.let { updateProduct ->
                 val product = repository.findById(updateProduct.id)
                     .orElseThrow { IllegalArgumentException("Product with id ${updateProduct.id} not found") }
-                product.apply { this.merge(updateProduct) }.toDTO()
+                product.apply { merge(updateProduct) }.toDTO()
             }
 }
