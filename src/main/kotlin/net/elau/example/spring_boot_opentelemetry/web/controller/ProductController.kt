@@ -1,6 +1,5 @@
 package net.elau.example.spring_boot_opentelemetry.web.controller
 
-import io.micrometer.core.instrument.MeterRegistry
 import net.elau.example.spring_boot_opentelemetry.aspect.LogExecution
 import net.elau.example.spring_boot_opentelemetry.aspect.MetricFromReturnValue
 import net.elau.example.spring_boot_opentelemetry.mapper.toDTO
@@ -15,7 +14,7 @@ import java.util.*
 
 @RestController
 @RequestMapping("/products")
-class ProductController(private val meterRegistry: MeterRegistry, private val service: ProductService) {
+class ProductController(private val service: ProductService) {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
