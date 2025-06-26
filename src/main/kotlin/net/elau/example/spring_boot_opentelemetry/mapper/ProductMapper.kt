@@ -2,10 +2,13 @@ package net.elau.example.spring_boot_opentelemetry.mapper
 
 import net.elau.example.spring_boot_opentelemetry.dto.CreateProductDTO
 import net.elau.example.spring_boot_opentelemetry.dto.ProductDTO
+import net.elau.example.spring_boot_opentelemetry.dto.UpdateProductDTO
 import net.elau.example.spring_boot_opentelemetry.exception.NullParameterException
 import net.elau.example.spring_boot_opentelemetry.model.Product
 import net.elau.example.spring_boot_opentelemetry.web.request.CreateProductRequest
+import net.elau.example.spring_boot_opentelemetry.web.request.UpdateProductRequest
 import net.elau.example.spring_boot_opentelemetry.web.response.ProductResponse
+import java.util.*
 
 fun CreateProductDTO.toModel() = Product(
     name = name,
@@ -23,7 +26,7 @@ fun Product.toDTO() = ProductDTO(
     category = category
 )
 
-fun CreateProductRequest.toDTO() = CreateProductDTO(
+fun CreateProductRequest.toDTO(userId: UUID) = CreateProductDTO(
     name = name,
     description = description,
     price = price,
@@ -37,4 +40,20 @@ fun ProductDTO.toResponse() = ProductResponse(
     description = description,
     price = price,
     category = category
+)
+
+fun Product.merge(updateProductDTO: UpdateProductDTO) {
+    updateProductDTO.name?.let { name = it }
+    updateProductDTO.description?.let { description = it }
+    updateProductDTO.price?.let { price = it }
+    updateProductDTO.category?.let { category = it }
+}
+
+fun UpdateProductRequest.toDTO(id: Long, userId: UUID) = UpdateProductDTO(
+    id = id,
+    name = name,
+    description = description,
+    price = price,
+    category = category,
+    userId = userId
 )

@@ -4,6 +4,8 @@ import io.opentelemetry.api.trace.Span
 import io.opentelemetry.instrumentation.annotations.WithSpan
 import net.elau.example.spring_boot_opentelemetry.dto.CreateProductDTO
 import net.elau.example.spring_boot_opentelemetry.dto.ProductDTO
+import net.elau.example.spring_boot_opentelemetry.dto.UpdateProductDTO
+import net.elau.example.spring_boot_opentelemetry.mapper.merge
 import net.elau.example.spring_boot_opentelemetry.mapper.toDTO
 import net.elau.example.spring_boot_opentelemetry.mapper.toModel
 import net.elau.example.spring_boot_opentelemetry.repository.ProductRepository
@@ -22,4 +24,16 @@ class ProductService(private val repository: ProductRepository) {
             }.let { createProduct ->
                 repository.save(createProduct.toModel())
             }.toDTO()
+
+    @Transactional
+    @WithSpan("product-service.update")
+    fun update(updateProductDTO: UpdateProductDTO): ProductDTO =
+        updateProductDTO
+            .apply {
+                Span.current().setAttribute("user.id", this.userId.toString())
+            }.let {
+                val product = repository.findById(updateProductDTO.id)
+                    .orElseThrow { IllegalArgumentException("Product with id ${updateProductDTO.id} not found") }
+                product.apply { this.merge(updateProductDTO) }.toDTO()
+            }
 }
