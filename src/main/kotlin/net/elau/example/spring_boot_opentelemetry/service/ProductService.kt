@@ -31,9 +31,9 @@ class ProductService(private val repository: ProductRepository) {
         updateProductDTO
             .apply {
                 Span.current().setAttribute("user.id", this.userId.toString())
-            }.let {
-                val product = repository.findById(updateProductDTO.id)
-                    .orElseThrow { IllegalArgumentException("Product with id ${updateProductDTO.id} not found") }
-                product.apply { this.merge(updateProductDTO) }.toDTO()
+            }.let { updateProduct ->
+                val product = repository.findById(updateProduct.id)
+                    .orElseThrow { IllegalArgumentException("Product with id ${updateProduct.id} not found") }
+                product.apply { this.merge(updateProduct) }.toDTO()
             }
 }
