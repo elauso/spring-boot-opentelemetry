@@ -1,1 +1,4 @@
+
 curl -i -X POST -H "Content-Type: application/json" -H "X-User-Id: f442ad40-eec3-4cfb-b328-14ed561d16fa" http://localhost:8080/products -d '{"name":"test","description":"test","price":10.00,"category":"ELECTRONICS"}'
+
+curl -i -X PATCH -H "Content-Type: application/json" -H "X-Use-Id: f442ad40-eec3-4cfb-b328-14ed561d16fa" http://localhost:8080/products/50 -d '{"name":"xpto"}'

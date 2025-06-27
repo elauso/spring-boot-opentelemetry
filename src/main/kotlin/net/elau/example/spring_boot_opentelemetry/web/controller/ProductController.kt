@@ -19,7 +19,7 @@ class ProductController(private val service: ProductService) {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @LogExecution("Product created with success productId={result.id}")
-    @MetricFromReturnValue(name = "product_create_requests_total", tags = ["category:return.category.name"])
+    @MetricFromReturnValue(name = "product_create_requests_total", tags = ["category:return.category"])
     fun create(
         @RequestHeader("X-User-Id") userId: UUID,
         @RequestBody createProductRequest: CreateProductRequest
@@ -28,7 +28,7 @@ class ProductController(private val service: ProductService) {
 
     @PatchMapping("/{id}")
     @LogExecution("Product updated with success productId={result.id}")
-    @MetricFromReturnValue(name = "product_update_requests_total", tags = ["category:return.category.name"])
+    @MetricFromReturnValue(name = "product_update_requests_total", tags = ["category:return.category"])
     fun update(
         @RequestHeader("X-User-Id") userId: UUID,
         @PathVariable id: Long,

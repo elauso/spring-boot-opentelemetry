@@ -23,6 +23,7 @@ repositories {
 val openTelemetrySpringVersion = "2.16.0"
 
 dependencies {
+	implementation("org.springframework.boot:spring-boot-starter-aop")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
