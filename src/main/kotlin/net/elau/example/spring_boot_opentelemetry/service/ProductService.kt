@@ -2,6 +2,7 @@ package net.elau.example.spring_boot_opentelemetry.service
 
 import io.opentelemetry.api.trace.Span
 import io.opentelemetry.instrumentation.annotations.WithSpan
+import jakarta.persistence.EntityNotFoundException
 import net.elau.example.spring_boot_opentelemetry.dto.CreateProductDTO
 import net.elau.example.spring_boot_opentelemetry.dto.ProductDTO
 import net.elau.example.spring_boot_opentelemetry.dto.UpdateProductDTO
@@ -23,7 +24,7 @@ class ProductService(private val repository: ProductRepository) {
             Span.current().setAttribute("user.id", userId.toString())
         }.let {
             repository.findById(productId)
-                .orElseThrow { IllegalArgumentException("Product with id $productId not found") }
+                .orElseThrow { EntityNotFoundException("Product with id $productId not found") }
         }.toDTO()
 
     @Transactional
@@ -44,7 +45,7 @@ class ProductService(private val repository: ProductRepository) {
                 Span.current().setAttribute("user.id", this.userId.toString())
             }.let { updateProduct ->
                 val product = repository.findById(updateProduct.id)
-                    .orElseThrow { IllegalArgumentException("Product with id ${updateProduct.id} not found") }
+                    .orElseThrow { EntityNotFoundException("Product with id ${updateProduct.id} not found") }
                 product.apply { merge(updateProduct) }.toDTO()
             }
 }
