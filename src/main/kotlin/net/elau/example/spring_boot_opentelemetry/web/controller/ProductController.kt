@@ -16,6 +16,14 @@ import java.util.*
 @RequestMapping("/products")
 class ProductController(private val service: ProductService) {
 
+    @GetMapping("/{id}")
+    @LogExecution("Product searched by productId={result.id}")
+    fun findById(
+        @PathVariable id: Long,
+        @RequestHeader("X-User-Id") userId: UUID
+    ): ProductResponse =
+        service.findById(id, userId).toResponse()
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @LogExecution("Product created with success productId={result.id}")
@@ -28,7 +36,6 @@ class ProductController(private val service: ProductService) {
 
     @PatchMapping("/{id}")
     @LogExecution("Product updated with success productId={result.id}")
-    @MetricFromReturnValue(name = "product_update_requests_total", tags = ["category:return.category"])
     fun update(
         @RequestHeader("X-User-Id") userId: UUID,
         @PathVariable id: Long,

@@ -11,9 +11,20 @@ import net.elau.example.spring_boot_opentelemetry.mapper.toModel
 import net.elau.example.spring_boot_opentelemetry.repository.ProductRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.*
 
 @Service
 class ProductService(private val repository: ProductRepository) {
+
+    @Transactional(readOnly = true)
+    @WithSpan("product-service.findById")
+    fun findById(productId: Long, userId: UUID): ProductDTO =
+        apply {
+            Span.current().setAttribute("user.id", userId.toString())
+        }.let {
+            repository.findById(productId)
+                .orElseThrow { IllegalArgumentException("Product with id $productId not found") }
+        }.toDTO()
 
     @Transactional
     @WithSpan("product-service.create")
