@@ -19,8 +19,8 @@ class ProductController(private val service: ProductService) {
     @GetMapping("/{id}")
     @LogExecution("Product searched by productId={result.id}")
     fun findById(
-        @PathVariable id: Long,
-        @RequestHeader("X-User-Id") userId: UUID
+        @RequestHeader("X-User-Id") userId: UUID,
+        @PathVariable id: Long
     ): ProductResponse =
         service.findById(id, userId).toResponse()
 
